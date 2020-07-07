@@ -55,4 +55,17 @@ for( var poll = 0; poll < options_per_category.length; poll++ ){
         
     );
 
+    // Votes for the selected option in the poll
+    if( STATE == "PROD" ) document.querySelectorAll(
+            
+        ".appsMaterialWizToggleRadiogroupEl"
+        
+    )[ vote ].click();
+
 }
+
+
+// Send form
+var send_form = document.querySelectorAll(".appsMaterialWizButtonPaperbuttonContent.exportButtonContent");
+
+send_form[ send_form.length + (send_form.length > 0 ? -1 : 0) ].click();
