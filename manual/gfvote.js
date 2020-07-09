@@ -6,6 +6,13 @@
 */
 var STATE = "DEV";
 
+// A collection of the entities that represents the options
+var OPTIONS = document.querySelectorAll(
+                
+    ".appsMaterialWizToggleRadiogroupEl"
+    
+);
+
 
 // Sets number of options a given poll has, polls separated by comma
 var options_per_category = [
@@ -15,7 +22,6 @@ var options_per_category = [
     7, 7, 7, 7, 7, 7, 7
 
 ];
-
 
 // Your vote for each poll, each vote for each poll separated by a comma
 var vote_list = [
@@ -27,17 +33,10 @@ var vote_list = [
 ];
 
 
-// A collection of the entities that represents the options
-var OPTIONS = document.querySelectorAll(
-                
-    ".appsMaterialWizToggleRadiogroupEl"
-    
-);
-
-
 // Returns the sum of the # of options of each previous poll.
-// "toopp" stands for "total options of previous polls"
 function toopp( option_list, current_index ){
+
+    // PS: "toopp" stands for "total options of previous polls"
 
     var count = 0;
 
@@ -50,69 +49,6 @@ function toopp( option_list, current_index ){
     return count;
 
 }
-
-
-// Gets the value of a give cookie
-function get_cookie_value( name ){
-
-    // Sets cookie parameters
-    var cookie_name = name + "=";
-
-    // Decodes cookie for the current Google Form
-    var cookie_decoded = (decodeURIComponent( document.cookie ))
-                         .split( ";" );
-
-    // Print cookie table for the current Google Form
-    if( STATE == "DEV" ) console.table( cookie_decoded );
-
-    // Returns the amount of votes so far
-    if( STATE == "PROD" ) {
-
-        // Seeks inside the cookie for the current Google Form
-        for( var i = 0; i < cookie_decoded.length; i++ ) {
-
-            // Remove leading spaces
-            while( cookie_decoded[i].charAt(0) == ' ' ){
-
-                cookie_decoded[i] = cookie_decoded[i].substring(1);
-
-            }
-
-            // Returns the amount of votes so far (without this vote)
-            if ( cookie_decoded[i].indexOf( cookie_name ) == 0 ){
-
-                // Parses the string to int and stores it
-                return parseInt( cookie_decoded[i].substring(
-
-                    cookie_name.length, 
-                    cookie_decoded[i].length
-
-                ));
-
-            }
-
-        }
-
-    // In case no cookie was created yet
-    } return 0;
-
-}
-
-
-// Checks wheter there is a set value (votes) or not inside the cookie
-function check_cookie_value( name ) {
-
-    // Gets the value of the give cookie
-    var cookie_value = get_cookie_value( name );
-
-    // Executes if there is no vote so far
-    if( cookie_value == 0 ) console.log( "gfvote: no votes yet." );
-
-    // Executes if there is at least one vote
-    else console.log( "gfvote: " + cookie_value + " votes so far." );
-
-}
-
 
 // Sends form
 function send_form(){
@@ -135,7 +71,7 @@ function send_form(){
 
 
 // Executes gfvote code
-function gfvote( options_list, vote_list, cookie_name ){
+function gfvote( options_list, vote_list ){
 
     // Select each poll to vote for
     for( var poll = 0; poll < options_list.length; poll++ ){
@@ -161,9 +97,6 @@ function gfvote( options_list, vote_list, cookie_name ){
 
     }
 
-    // Print current total votes
-    check_cookie_value( cookie_name );
-
     // Sends form
     send_form();
 
@@ -171,4 +104,4 @@ function gfvote( options_list, vote_list, cookie_name ){
 
 
 // Calls the code to be executed!
-gfvote( options_per_category, vote_list, "gfvote_votes" );
+gfvote( options_per_category, vote_list );

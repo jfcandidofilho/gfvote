@@ -2,7 +2,7 @@
 
 A simple JavaScript script to vote for polls made with Google Forms.
 
-Latest release: `1.2.0`
+Latest release: `1.3.0`
 
 # Donations
 
@@ -18,11 +18,13 @@ gfvote can help you automate voting in polls made with Google Forms. It is worth
 
 There is a vote count system. To fully use it, read the "_How To_" below.
 
+It should be able to autoupdate or easy manual update with __Greasemonkey__ and __Tapermonkey__. Hit the update button and that is it!
+
 # How to use gfvote
 
 "_I highly suggest reading everything once before trying anything_." - Me.
 
-Modify the code in `gfvote.js` to suit the number of polls inside the Google Form. Also modify `gfrestart.js` to set the number of days in which to save the vote count. And put everything into Greasemonkey (or Tampermonkey). Alternatively, you could do it manually if you don't want to vote countless times. Either way, you should choose the proper directory.
+Modify the code in `gfvote.js` to suit the number of polls inside the Google Form. Also modify `gfcount.js` to set the number of days in which to save the vote count. And put everything into Greasemonkey (or Tampermonkey). Alternatively, you could do it manually if you don't want to vote countless times. Either way, you should choose the proper directory.
 
 Example? Consider that we have the following:
 
@@ -30,7 +32,7 @@ Example? Consider that we have the following:
 - Four options in polls #1 and #2 and five options in poll #3;
 - We are voting at the options 1, 2 and 5 for polls #1, #2 and #3, respectively;
 
-In `gfvote.js` and in `gfrestart.js`, modify the variables `STATE` to be:
+In `gfvote.js` and in `gfcount.js`, modify the variables `STATE` to be:
 
     var STATE = "PROD";
 
@@ -42,17 +44,19 @@ In `gfvote.js`, modify the variable `vote_list` to contain our votes. It starts 
 
     var vote_list = [ 0, 1, 4 ];
 
-In `gfrestart.js`, modify the variable `age_in_days` to determine the number of days to store the vote count:
+In `gfcount.js`, modify the variable `age_in_days` to determine the number of days to store the vote count:
 
     var age_in_days = 10;
 
+Insert every code into the proper location, be it in console or in __Greasemonkey__ or __Tapermonkey__. Your choice.
+
 __That's it!__ Everything is set to run! Just open the Google Form with the polling (or refresh it) and the code will run after everything was set in place.
 
-__PS__: You should select the options you desire and let the script run once _BEFORE_ changing the `STATE` variable to `"PROD"` (i.e. letting it be set to the default value `"DEV"`) by refreshing the page if it is already loaded. Vvisit it if not loaded already. Check the console output and verify if the output is as desired. After that, cha
-
-__PS__: In case you want to know the __number of votes__ already given, open developer console, and let checked only the option for logs. There is a link later in this tutorial to help with this.
+__PS__: You should select the options you desire and let the script run once _BEFORE_ changing the `STATE` variable to `"PROD"` (i.e. letting it be set to the default value `"DEV"`) by refreshing the page if it is already loaded. Vvisit it if not loaded already. Check the console output and verify if the output is as desired. After that, if everything is OK, change it to `"PROD"`.
 
 ## Directory structure
+
+There are three files: gfvote.js, gfrestart.js and gfcount.js. Each method has one file of these differing only by the metadata block (present if for automators or inexistent if manual).
 
 The directory structure divides the code into usage. So:
 
@@ -70,7 +74,12 @@ You can either save these files in your machine and open with a simple text edit
 ## About the manual way to use this code
 
 - Open your browser's _developer console_ ( [click here][0] to find out how if you do not know already );
+- Copy the properly modified code from `gfcount.js` inside `manual` directory;
+- Paste the code into the console and hit `ENTER`;
 - Copy the properly modified code from `gfvote.js` inside `manual` directory;
+- Paste the code into the console and hit `ENTER`;
+- It should load the page informing you voted OK;
+- Copy the properly modified code from `gfcount.js` inside `manual` directory;
 - Paste the code into the console and hit `ENTER`;
 - Copy the properly modified code from `gfrestart.js` inside `manual` directory;
 - Paste the code into the console and hit `ENTER`;
@@ -91,7 +100,7 @@ To automate the voting, do the following:
 - Paste the code of `gfvote.js` here. It is located inside the `auto` directory by the extension name;
 - Save the script and enable it if it isn't enabled already;
 - Close it;
-- Repeat eveything above but copying the code from `gfrestart` intead;
+- Repeat eveything above but copying the code from `gfcount` and `gfrestart` intead;
 - Open the desired form (__can't__ be inside an `iframe`);
 - __Profit!__
 
