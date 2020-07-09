@@ -2,7 +2,15 @@
 
 A simple JavaScript script to vote for polls made with Google Forms.
 
-Latest release: `1.1.0`
+Latest release: `1.2.0`
+
+# Donations
+
+If you can and would like to support me, send a donation! Any amount is desirable - even a cent! :)
+
+[PayPal][2]
+
+[Bitcoin][3] - bc1q6wp8znaedr4u6pc8es3dr5k0jgtw78xg3lclfn
 
 # Functions
 
@@ -14,7 +22,7 @@ There is a vote count system. To fully use it, read the "_How To_" below.
 
 "_I highly suggest reading everything once before trying anything_." - Me.
 
-Modify the code in `gfvote.js` to suit the number of polls inside the form with the polls. Also modify `gfrestart.js` to set the number of days in which to save the vote count. And put everything into Greasemonkey (or equivalent).
+Modify the code in `gfvote.js` to suit the number of polls inside the Google Form. Also modify `gfrestart.js` to set the number of days in which to save the vote count. And put everything into Greasemonkey (or Tampermonkey). Alternatively, you could do it manually if you don't want to vote countless times. Either way, you should choose the proper directory.
 
 Example? Consider that we have the following:
 
@@ -40,7 +48,18 @@ In `gfrestart.js`, modify the variable `age_in_days` to determine the number of 
 
 __That's it!__ Everything is set to run! Just open the Google Form with the polling (or refresh it) and the code will run after everything was set in place.
 
+__PS__: You should select the options you desire and let the script run once _BEFORE_ changing the `STATE` variable to `"PROD"` (i.e. letting it be set to the default value `"DEV"`) by refreshing the page if it is already loaded. Vvisit it if not loaded already. Check the console output and verify if the output is as desired. After that, cha
+
 __PS__: In case you want to know the __number of votes__ already given, open developer console, and let checked only the option for logs. There is a link later in this tutorial to help with this.
+
+## Directory structure
+
+The directory structure divides the code into usage. So:
+
+- If you are going to use it _manually_, use the code inside `manual`directory.
+- If you are going to use it with an _automator_, use the code from `auto` directory.
+    * If you are using __Greasemonkey__, use the `greasemonkey` directory;
+    * If you are using __Tampermonkey__, use the `tampermonkey` directory;
 
 
 ## How to edit
@@ -51,54 +70,41 @@ You can either save these files in your machine and open with a simple text edit
 ## About the manual way to use this code
 
 - Open your browser's _developer console_ ( [click here][0] to find out how if you do not know already );
-- Copy the properly modified code from `gfvote.js`;
+- Copy the properly modified code from `gfvote.js` inside `manual` directory;
 - Paste the code into the console and hit `ENTER`;
-- Copy the properly modified code from `gfrestart.js`;
+- Copy the properly modified code from `gfrestart.js` inside `manual` directory;
 - Paste the code into the console and hit `ENTER`;
 - __Done!__
 
 
 ## About the automated way to use
 
-This short tutorial assumes you are using the browser extension __Greasemonkey__ but can be adapted to other extesnions. _Probably._ 
-
-It is worth noting that Chromium browsers have __Tampermonkey__. Other browsers might have other extensions.
+This short tutorial assumes you are using the browser extension __Greasemonkey__ with Firefox or __Tampermonkey__ with almost everything else (e.g. Chromium, Chrome, Edge, Safari...). It can be adapted to other similar extensions. _Probably._
 
 This is not a tutorial on how to use such extensions. There are plenty already over the internet - including videos. Search for it - random example [here][1].
 
 To automate the voting, do the following:
 
-- Create a new script in __Greasemonkey__;
-- Add the properly modified code of `gfvote.js` into this script - below the default data _(see below)_;
-- Change the script name to `gfvote.js` by modifying the text after @name in the default data;
+- Follow the tutorial to change the code where it is needed to be changed;
+- Create a new script in __Greasemonkey__ or __Tampermonkey__;
+- Clean the default code presented;
+- Paste the code of `gfvote.js` here. It is located inside the `auto` directory by the extension name;
 - Save the script and enable it if it isn't enabled already;
 - Close it;
-- Repeat eveything above but copying the code from `gfrestart` intead and using it as name;
+- Repeat eveything above but copying the code from `gfrestart` intead;
 - Open the desired form (__can't__ be inside an `iframe`);
 - __Profit!__
 
-Default data:
 
-    // ==UserScript==
-    // @name        Unnamed Script ....
-    // @version     1
-    // @grant       none
-    // ==/UserScript==
+## `STATE` variable explanation
 
-Paste the code below it!
-
-
-# `STATE` variable explanation
-
-This information is only useful to _developers_. Skip ahead if you are not interested in it. Won't cause problems for you if you do not know what follows ahead.
-
-There are three states the code can operate and that behaves differently. `DEBUG` state needs to be implemented in case you want to fix modifications and is up to you to use.
+There are three states the code can operate and that behaves differently. `"DEBUG"` state needs to be implemented in case you want to fix modifications and is up to you to use.
 
 To modify a state, simply change the variable `STATE` to be one of the following values:
 
 - `"DEV"`: use this mode to check your votes after you calculate their values;
 - `"PROD"`: use this mode to vote;
-- `"DEBUG"`: use this mode to debug;
+- `"DEBUG"`: use this mode to debug and should be interesting for programmers wanting to modify this code;
 
 
 # Future releases
@@ -113,3 +119,5 @@ This is dedicated to by dear cute little sister that always takes parts in polls
 
 [0]: https://balsamiq.com/support/faqs/browserconsole/
 [1]: http://hayageek.com/greasemonkey-tutorial/#install-greasemonkey
+[2]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=F4LCB3BY4KQHG&source=url
+[3]: https://www.investopedia.com/news/how-donate-charity-using-bitcoin/

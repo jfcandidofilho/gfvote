@@ -1,7 +1,7 @@
 /*
     Selects the state of the code running
     "DEV" -> tests for development
-    "DEBUGG" -> Debugging the error
+    "DEBUG" -> Debugging the error
     "PROD" -> Production code
 */
 var STATE = "DEV";
@@ -72,12 +72,14 @@ function get_cookie_value( name ){
         for( var i = 0; i < cookie_decoded.length; i++ ) {
 
             // Remove leading spaces
-            while( cookie_decoded[i].charAt(0) == ' ' )
+            while( cookie_decoded[i].charAt(0) == ' ' ){
 
                 cookie_decoded[i] = cookie_decoded[i].substring(1);
 
+            }
+
             // Returns the amount of votes so far (without this vote)
-            if ( cookie_decoded[i].indexOf( cookie_name ) == 0 )
+            if ( cookie_decoded[i].indexOf( cookie_name ) == 0 ){
 
                 // Parses the string to int and stores it
                 return parseInt( cookie_decoded[i].substring(
@@ -87,10 +89,12 @@ function get_cookie_value( name ){
 
                 ));
 
-        // In case no cookie was created yet
-        } return 0;
+            }
 
-    }
+        }
+
+    // In case no cookie was created yet
+    } return 0;
 
 }
 
@@ -140,13 +144,17 @@ function gfvote( options_list, vote_list, cookie_name ){
         var vote = toopp( options_list, poll ) + vote_list[ poll ];
 
         // Verifies the vote selected
-        if( STATE == "DEV" ) console.log( 
+        if( STATE == "DEV" ){ 
             
-            "POLL: " + (poll + 1),
+            console.log( 
             
-            "VOTE: " + OPTIONS[ vote ].dataset.value
+                "POLL: " + (poll + 1),
+                
+                "VOTE: " + OPTIONS[ vote ].dataset.value
     
-        );
+            );
+
+        }
 
         // Votes for the selected option in the poll
         if( STATE == "PROD" ) OPTIONS[ vote ].click();

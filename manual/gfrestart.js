@@ -1,7 +1,7 @@
 /*
     Selects the state of the code running
     "DEV" -> tests for development
-    "DEBUGG" -> Debugging the error
+    "DEBUG" -> Debugging the error
     "PROD" -> Production code
 */
 var STATE = "DEV";
@@ -31,12 +31,14 @@ function get_cookie_value( name ){
         for( var i = 0; i < cookie_decoded.length; i++ ) {
 
             // Remove leading spaces
-            while( cookie_decoded[i].charAt(0) == ' ' )
+            while( cookie_decoded[i].charAt(0) == ' ' ){
 
                 cookie_decoded[i] = cookie_decoded[i].substring(1);
 
+            }
+
             // Returns the amount of votes so far (without this vote)
-            if ( cookie_decoded[i].indexOf( cookie_name ) == 0 )
+            if ( cookie_decoded[i].indexOf( cookie_name ) == 0 ){
 
                 // Parses the string to int and stores it
                 return parseInt( cookie_decoded[i].substring(
@@ -46,10 +48,12 @@ function get_cookie_value( name ){
 
                 ));
 
-        // In case no cookie was created yet
-        } return 0;
+            }
 
-    }
+        }
+
+    // In case no cookie was created yet
+    } return 0;
 
 }
 
@@ -108,7 +112,7 @@ function gfrestart( cookie_name, age_in_days ){
     );
 
     // Checks if the restart button is available
-    if( restart_button.children.length > 0 ){
+    if( restart_button.children.length > 0 && STATE == "PROD" ){
 
         // Checks the number of votes 
         check_cookie_value( cookie_name, age_in_days );
