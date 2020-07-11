@@ -2,7 +2,7 @@
 
 A simple JavaScript script to vote for polls made with Google Forms.
 
-Latest release: `1.3.0`
+Latest release: `2.0.0`
 
 # Donations
 
@@ -24,7 +24,7 @@ It should be able to autoupdate or easy manual update with __Greasemonkey__ and 
 
 "_I highly suggest reading everything once before trying anything_." - Me.
 
-Modify the code in `gfvote.js` to suit the number of polls inside the Google Form. Also modify `gfcount.js` to set the number of days in which to save the vote count. And put everything into Greasemonkey (or Tampermonkey). Alternatively, you could do it manually if you don't want to vote countless times. Either way, you should choose the proper directory.
+Modify the code in `gfvote.js` to suit the number of polls inside the Google Form. Also set `number_of_days` with the number of days to save the vote count. Put everything into __Greasemonkey__ (or __Tampermonkey__ or others). Alternatively, you could do it manually if you don't want to vote an unsure number of times.
 
 Example? Consider that we have the following:
 
@@ -32,39 +32,40 @@ Example? Consider that we have the following:
 - Four options in polls #1 and #2 and five options in poll #3;
 - We are voting at the options 1, 2 and 5 for polls #1, #2 and #3, respectively;
 
-In `gfvote.js` and in `gfcount.js`, modify the variables `STATE` to be:
 
-    var STATE = "PROD";
+Now, after these considerations, modify the variable `STATE` to be:
 
-In `gfvote.js`, modify the variable `option_per_category` to be:
+    var STATE = "DEV";
+    
+Modify the variable `option_per_category` to be:
 
     var option_per_category = [ 4, 4, 5 ];
 
-In `gfvote.js`, modify the variable `vote_list` to contain our votes. It starts at zero for each poll so subtract one from each option. We get:
+Modify the variable `vote_list` to contain our votes. It starts at zero for each poll so subtract one from each option. We get:
 
     var vote_list = [ 0, 1, 4 ];
 
-In `gfcount.js`, modify the variable `age_in_days` to determine the number of days to store the vote count:
+Modify the variable `age_in_days` to determine the number of days to store the vote count:
 
     var age_in_days = 10;
 
 Insert every code into the proper location, be it in console or in __Greasemonkey__ or __Tapermonkey__. Your choice.
 
+Open the console. You should see what you would be voting for as your are in `"DEV"` mode. If everything is alright, modify the variable `STATE` to be:
+
+    var STATE = "PROD";
+
 __That's it!__ Everything is set to run! Just open the Google Form with the polling (or refresh it) and the code will run after everything was set in place.
 
-__PS__: You should select the options you desire and let the script run once _BEFORE_ changing the `STATE` variable to `"PROD"` (i.e. letting it be set to the default value `"DEV"`) by refreshing the page if it is already loaded. Vvisit it if not loaded already. Check the console output and verify if the output is as desired. After that, if everything is OK, change it to `"PROD"`.
+You really should select the options you desire and let the script run once _BEFORE_ changing the `STATE` variable to `"PROD"` by refreshing the page if it is already loaded. Vvisit it if not loaded already. Check the console output and verify if the output is as desired. After that, if everything is OK, change it to `"PROD"`.
 
-## Directory structure
+__PS:__ The code will auto update whenever changes are made by this geeky developer. This action will scrap your votes in the sense you need to modify the variables again UNLESS you remove this line:
 
-There are three files: gfvote.js, gfrestart.js and gfcount.js. Each method has one file of these differing only by the metadata block (present if for automators or inexistent if manual).
+    // @updateURL       https://raw.githubusercontent.com/jfcandidofilho/gfvote/master/auto/tampermonkey/gfvote.js
 
-The directory structure divides the code into usage. So:
+This deactivates autoupdates but preserves you choice of votes and polls. It is your choice if you prefer updated code but having to set yet again the votes OR if you prefer the old code but no hassle in setting it again.
 
-- If you are going to use it _manually_, use the code inside `manual`directory.
-- If you are going to use it with an _automator_, use the code from `auto` directory.
-    * If you are using __Greasemonkey__, use the `greasemonkey` directory;
-    * If you are using __Tampermonkey__, use the `tampermonkey` directory;
-
+_( I think I would not like autoupdate. But the option should be available for those that do. )_
 
 ## How to edit
 
@@ -74,14 +75,10 @@ You can either save these files in your machine and open with a simple text edit
 ## About the manual way to use this code
 
 - Open your browser's _developer console_ ( [click here][0] to find out how if you do not know already );
-- Copy the properly modified code from `gfcount.js` inside `manual` directory;
-- Paste the code into the console and hit `ENTER`;
-- Copy the properly modified code from `gfvote.js` inside `manual` directory;
+- Copy (the previously modified) code `gfvote.js`;
 - Paste the code into the console and hit `ENTER`;
 - It should load the page informing you voted OK;
-- Copy the properly modified code from `gfcount.js` inside `manual` directory;
-- Paste the code into the console and hit `ENTER`;
-- Copy the properly modified code from `gfrestart.js` inside `manual` directory;
+- Copy (the previously modified) code `gfvote.js`;
 - Paste the code into the console and hit `ENTER`;
 - __Done!__
 
@@ -97,11 +94,10 @@ To automate the voting, do the following:
 - Follow the tutorial to change the code where it is needed to be changed;
 - Create a new script in __Greasemonkey__ or __Tampermonkey__;
 - Clean the default code presented;
-- Paste the code of `gfvote.js` here. It is located inside the `auto` directory by the extension name;
+- Paste the code of `gfvote.js`;
 - Save the script and enable it if it isn't enabled already;
 - Close it;
-- Repeat eveything above but copying the code from `gfcount` and `gfrestart` intead;
-- Open the desired form (__can't__ be inside an `iframe`);
+- Open the desired Google Form with a polling (__can't__ be inside an `iframe`);
 - __Profit!__
 
 

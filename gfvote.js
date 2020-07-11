@@ -1,20 +1,19 @@
 // ==UserScript==
-// @name            gfcount.js
+// @name            gfvote.js
 // @namespace       http://github.com/jfcandidofilho/gfvote
-// @version         1.3.1
+// @version         2.0.0
 // @description     A simple JavaScript script to vote for polls made with Google Forms.
 // @author          J. F. Candido Filho | jfcandidofilho.xyz
 // @match           https://docs.google.com/forms/*
 // @grant           none
 // @encoding        utf-8
-// @downloadURL     https://raw.githubusercontent.com/jfcandidofilho/gfvote/master/auto/tampermonkey/gfcount.js
-// @updateURL       https://raw.githubusercontent.com/jfcandidofilho/gfvote/master/auto/tampermonkey/gfcount.js
+// @downloadURL     https://raw.githubusercontent.com/jfcandidofilho/gfvote/master/auto/tampermonkey/gfvote.js
+// @updateURL       https://raw.githubusercontent.com/jfcandidofilho/gfvote/master/auto/tampermonkey/gfvote.js
 // @contributionURL https://github.com/jfcandidofilho/gfvote#donations
 // @supportURL      https://github.com/jfcandidofilho/gfvote/issues
 // ==/UserScript==
 
-(function() {
-    'use strict';
+(function() { 'use strict';
 
     /*
     Selects the state of the code running
@@ -22,8 +21,33 @@
     "DEBUG" -> Debugging the error
     "PROD" -> Production code
     */
-    var STATE = "DEV";
+    var STATE = "PROD";
 
+    // A collection of the entities that represents the options
+    var OPTIONS = document.querySelectorAll(
+                    
+        ".appsMaterialWizToggleRadiogroupEl"
+        
+    );
+
+
+    // Sets number of options a given poll has, polls separated by comma
+    var options_per_category = [
+
+        6, 7, 8, 7, 7, 7, 7, 7, 7, 7, 
+        7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 
+        7, 7, 7, 7, 7, 7, 7
+
+    ];
+
+    // Your vote for each poll, each vote for each poll separated by a comma
+    var vote_list = [
+
+        0, 6, 5, 1, 3, 5, 5, 3, 3, 3, 
+        6, 0, 2, 6, 1, 3, 5, 0, 6, 6, 
+        3, 1, 3, 4, 2, 6, 3
+
+    ];
 
     // Defines the maximum age (in days)
     var age_in_days = 10;
@@ -42,6 +66,43 @@
         vote_count: "font-size: 28pt;"
 
     };
+
+
+    // Returns the sum of the # of options of each previous poll.
+    function toopp( option_list, current_index ){
+
+        // PS: "toopp" stands for "total options of previous polls"
+
+        var count = 0;
+
+        for( var i = 0; i < current_index; i++ ){
+
+            count += option_list[ i ];
+
+        }
+
+        return count;
+
+    }
+
+    // Sends form
+    function send_form(){
+
+        // Get send button
+        var send_form = document.querySelectorAll(
+            
+            ".appsMaterialWizButtonPaperbuttonContent.exportButtonContent"
+            
+        );
+
+        // Send form by clicking on it
+        send_form[ 
+            
+            send_form.length + ( send_form.length > 0 ? -1 : 0 )
+
+        ].click();
+
+    }
 
 
     // Gets the value of a give cookie
@@ -137,40 +198,12 @@
     }
 
 
-    // Executes gfcount code
-    function gfcount( styles, cookie_name, age_in_days ){
+    // Creates a vote panel with vote count
+    function create_panel( styles, cookie_name ){
 
         // Declaring variables
-        var restart_button = null;
-        var cookie_value = null;
         var vote_holder = null;
         var vote_child = null;
-
-
-        // Gets the button that restarts the poll
-        restart_button = document.querySelector(
-            
-            ".freebirdFormviewerViewResponseLinksContainer"
-            
-        );
-
-        // Gets the cookie value
-        cookie_value = get_cookie_value( cookie_name );
-
-
-        // Sets the cookie value if in production
-        if( restart_button != null && STATE == "PROD" ){
-
-            // Sets the cookie
-            set_cookie_value( 
-
-                cookie_name, 
-                get_cookie_value( cookie_name ) + 1, 
-                age_in_days 
-                
-            );
-
-        }
 
 
         // Creates the main div of the counting
@@ -219,7 +252,87 @@
     }
 
 
+    // Executes gfvote code
+    function gfvote( options_list, vote_list, styles, cookie_name, age_in_days ){
+
+        // Declaring variables
+        var restart_button = null;
+        var vote = null;
+
+
+        // Gets the button to restart the poll
+        restart_button = document.querySelector(
+            
+            ".freebirdFormviewerViewResponseLinksContainer"
+            
+        );
+
+
+        // Checks if the restart button is available ...
+        if( restart_button != null ){
+
+            // Sets the cookie
+            set_cookie_value( 
+
+                cookie_name, 
+                get_cookie_value( cookie_name ) + 1, 
+                age_in_days 
+                
+            );
+
+            // Creates a vote panel with vote count
+            create_panel( styles, cookie_name );
+
+            // ... Restarts form
+            restart_button.children[0].click();
+
+        // ... If not available, then the "vote" button is available
+        } else {
+            
+            // Select each poll to vote for
+            for( var poll = 0; poll < options_list.length; poll++ ){
+
+                // Select the proper element in a list of elements to vote for
+                vote = toopp( options_list, poll ) + vote_list[ poll ];
+
+                // Verifies the vote selected
+                if( STATE == "DEV" ){ 
+                    
+                    console.log( 
+                    
+                        "POLL: " + (poll + 1),
+                        
+                        "VOTE: " + OPTIONS[ vote ].dataset.value
+            
+                    );
+
+                }
+
+                // Votes for the selected option in the poll
+                if( STATE == "PROD" ) OPTIONS[ vote ].click();
+
+            }
+
+            // Creates a vote panel with vote count
+            create_panel( styles, cookie_name );
+
+            // Sends form
+            send_form();
+
+        }
+
+    }
+
+
     // Calls the code to be executed!
-    gfcount( styles, "gfvote_votes", age_in_days );
+    gfvote( 
+        
+        options_per_category, 
+        vote_list, 
+        styles, 
+        "gfvote_votes", 
+        age_in_days 
+        
+        );
     
 })();
