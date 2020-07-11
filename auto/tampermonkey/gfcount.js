@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            gfcount.js
 // @namespace       http://github.com/jfcandidofilho/gfvote
-// @version         1.3.0
+// @version         1.3.1
 // @description     A simple JavaScript script to vote for polls made with Google Forms.
 // @author          J. F. Candido Filho | jfcandidofilho.xyz
 // @match           https://docs.google.com/forms/*
@@ -34,7 +34,7 @@
         vote: "font-size: 12pt; position: fixed; clean: both;\
         border: 1em solid #c33; background-color: #fff; \
         color: #33c; padding: 4em; width: 120px; top: 0;\
-        height: 70px; font-weight: bold; left: 0;\
+        height: 70px; font-weight: bold; left: 0; z-index: 2;\
         text-align: center; margin: 10px; border-radius: 25px 25px;",
 
         vote_title: "font-size: 12pt; color: #678;",

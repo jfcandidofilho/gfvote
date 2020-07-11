@@ -16,7 +16,7 @@ var styles = {
     vote: "font-size: 12pt; position: fixed; clean: both;\
     border: 1em solid #c33; background-color: #fff; \
     color: #33c; padding: 4em; width: 120px; top: 0;\
-    height: 70px; font-weight: bold; left: 0;\
+    height: 70px; font-weight: bold; left: 0; z-index: 2;\
     text-align: center; margin: 10px; border-radius: 25px 25px;",
 
     vote_title: "font-size: 12pt; color: #678;",
