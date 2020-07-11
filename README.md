@@ -2,7 +2,7 @@
 
 A simple JavaScript script to vote for polls made with Google Forms.
 
-Latest release: `2.0.0`
+Latest release: `2.0.1`
 
 # Donations
 

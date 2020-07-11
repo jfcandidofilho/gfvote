@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name            gfvote.js
 // @namespace       http://github.com/jfcandidofilho/gfvote
-// @version         2.0.0
+// @version         2.0.1
 // @description     A simple JavaScript script to vote for polls made with Google Forms.
 // @author          J. F. Candido Filho | jfcandidofilho.xyz
 // @match           https://docs.google.com/forms/*
 // @grant           none
 // @encoding        utf-8
-// @downloadURL     https://raw.githubusercontent.com/jfcandidofilho/gfvote/master/auto/tampermonkey/gfvote.js
-// @updateURL       https://raw.githubusercontent.com/jfcandidofilho/gfvote/master/auto/tampermonkey/gfvote.js
+// @downloadURL     https://raw.githubusercontent.com/jfcandidofilho/gfvote/master/gfvote.js
+// @updateURL       https://raw.githubusercontent.com/jfcandidofilho/gfvote/master/gfvote.js
 // @contributionURL https://github.com/jfcandidofilho/gfvote#donations
 // @supportURL      https://github.com/jfcandidofilho/gfvote/issues
 // ==/UserScript==
